@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube Creator Studio</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#080b11;--panel:#0e141e;--panel2:#121925;--line:#263143;--muted:#8793a7;--text:#f3f5f9;--text2:#c3cad6;
+  --accent:#7358f5;--accent2:#805ef7;--accentSoft:#211b42;--accentLine:#3c3272;
+  --red:#ff4e45;--good:#1fb57a;--warn:#e0a100;--bad:#e66767;
+  --long:#3987e5;--short:#d95926;
+  --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    color-scheme:light;
+    --bg:#f4f5f8;--panel:#ffffff;--panel2:#f7f8fb;--line:#dde2ea;--muted:#5e6878;--text:#11151c;--text2:#3a4250;
+    --accentSoft:#ece8ff;--accentLine:#c8bdfc;
+    --long:#2a78d6;--short:#eb6834;
+    --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
+  }
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f4f5f8;--panel:#ffffff;--panel2:#f7f8fb;--line:#dde2ea;--muted:#5e6878;--text:#11151c;--text2:#3a4250;
+  --accentSoft:#ece8ff;--accentLine:#c8bdfc;
+  --long:#2a78d6;--short:#eb6834;
+  --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--accent2)}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--red);display:grid;place-items:center}
+.logo svg{width:16px;height:16px}
+.brand b{display:block;font-size:15px}.brand small{color:var(--muted);font-size:12px}
+nav{display:flex;gap:2px;overflow-x:auto;max-width:100%}
+nav button{background:none;border:1px solid transparent;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+nav button.active{background:var(--accentSoft);border-color:var(--accentLine);color:var(--text)}
+main{max-width:1280px;margin:0 auto;padding:18px 16px 60px}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:0 0 12px}h3{font-size:13px;margin:0 0 8px;color:var(--text2)}
+.sub{color:var(--muted);margin:0 0 18px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.kpi .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.kpi .value{font-size:26px;font-weight:750;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.kpi .hint{color:var(--muted);font-size:12px}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--accentLine)}
+.btn.primary{background:linear-gradient(135deg,#6d50f1,#805ef7);border-color:#826af0;color:#fff;font-weight:650}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:5px 9px;font-size:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+label.f{display:block;margin-bottom:10px}
+label.f>span{display:block;color:var(--muted);font-size:12px;margin-bottom:4px}
+label.f>span.row{display:flex}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px}
+input[type=checkbox]{width:auto}
+.bar{height:8px;background:var(--panel2);border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bar.ok>i{background:var(--good)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);background:var(--panel2);color:var(--text2);white-space:nowrap}
+.pill .dot{width:7px;height:7px;border-radius:50%}
+.pill.good{color:var(--good);border-color:color-mix(in srgb,var(--good) 45%,transparent)}
+.pill.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
+.pill.bad{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent)}
+.list{display:grid;gap:8px}
+.item{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);cursor:pointer;min-width:0}
+.item:hover{border-color:var(--accentLine)}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .t small{color:var(--muted)}
+.fmt{width:6px;align-self:stretch;border-radius:3px;background:var(--long)}
+.fmt.short{background:var(--short)}
+.empty{color:var(--muted);padding:14px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600;font-size:12px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tablewrap{overflow-x:auto}
+
+/* calendar */
+.cal-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.dow{color:var(--muted);font-size:11px;text-transform:uppercase;padding:4px 6px}
+.day{min-height:112px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px;display:flex;flex-direction:column;gap:3px;cursor:pointer;min-width:0}
+.day.out{opacity:.45}
+.day.today{border-color:var(--accent)}
+.day.drop{background:var(--accentSoft)}
+.day .n{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.chip{font-size:11px;padding:3px 6px;border-radius:5px;background:var(--panel2);border-left:3px solid var(--long);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:grab}
+.chip.short{border-left-color:var(--short)}
+.chip.pub{opacity:.6;text-decoration:line-through}
+.slot{font-size:10px;color:var(--muted);border:1px dashed var(--line);border-radius:5px;padding:2px 5px;text-align:center}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text2)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* board */
+.board{display:grid;grid-template-columns:repeat(7,minmax(190px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:300px}
+.col.drop{background:var(--accentSoft)}
+.col h3{display:flex;justify-content:space-between;margin:2px 4px 8px}
+.kcard{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:6px;cursor:grab;border-left:3px solid var(--long)}
+.kcard.short{border-left-color:var(--short)}
+.kcard b{display:block;font-size:13px;margin-bottom:4px;word-break:break-word}
+.kcard small{color:var(--muted);font-size:11px}
+
+/* modal */
+.modal{position:fixed;inset:0;background:#000a;display:none;place-items:center;z-index:50;padding:16px}
+.modal.open{display:grid}
+.dialog{width:min(860px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.dialog .foot{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.meter{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-top:4px}
+.meter .bar{flex:1}
+.tips{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:12px}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 14px}
+.checks label{display:flex;gap:8px;align-items:flex-start;font-size:13px;cursor:pointer}
+.checks input{margin-top:3px}
+.toggles{display:flex;gap:4px;flex-wrap:wrap}
+.toggles button{min-width:44px;padding:6px 8px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);cursor:pointer}
+.toggles button.on{background:var(--accentSoft);border-color:var(--accent)}
+.toast{position:fixed;right:16px;bottom:16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none;z-index:80;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:none}
+.stream{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+.stream:last-child{border-bottom:0}
+.stream .t{flex:1}
+.stream small{color:var(--muted);display:block}
+.note{font-size:12px;color:var(--muted)}
+.big{font-size:30px;font-weight:750;font-variant-numeric:tabular-nums}
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px;box-shadow:0 8px 24px #0005;display:none;z-index:5;min-width:150px}
+.tip div{display:flex;justify-content:space-between;gap:12px}
+.tip i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:5px}
+pre.copy{white-space:pre-wrap;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;font:12px/1.5 ui-monospace,monospace;max-height:260px;overflow:auto}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.checks{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .day{min-height:64px;padding:3px}.chip{font-size:9px;padding:2px 3px}.slot{display:none}
+  .dow{font-size:9px;padding:2px}
+  .brand small{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z" fill="#fff"/></svg></div>
+    <div><b id="brandName">YouTube Creator Studio</b><small>Plan · Schedule · Monetize</small></div>
+  </div>
+  <nav id="nav">
+    <button data-view="dashboard">Dashboard</button>
+    <button data-view="calendar">Calendar</button>
+    <button data-view="pipeline">Pipeline</button>
+    <button data-view="monetize">Monetization</button>
+    <button data-view="income">Income</button>
+    <button data-view="sponsors">Sponsors</button>
+    <button data-view="settings">Settings</button>
+  </nav>
+  <button class="btn primary" id="newVideo">+ New video</button>
+</header>
+<main id="view"></main>
+
+<div class="modal" id="modal"><div class="dialog" id="dialog" role="dialog" aria-modal="true"></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="lib.js"></script>
+<script>
+'use strict';
+const L = window.YTLib;
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+const money = (n, d = 0) => '$' + (Number(n) || 0).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+const fmtN = (n) => (Number(n) || 0).toLocaleString();
+const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const pad = (n) => String(n).padStart(2, '0');
+const toLocalInput = (iso) => { if (!iso) return ''; const d = new Date(iso); return `${L.dateKey(d)}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+const fmtDate = (iso, opts = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) => iso ? new Date(iso).toLocaleString(undefined, opts) : 'Unscheduled';
+const SOURCE_COLOR = Object.fromEntries(L.INCOME_SOURCES.map((s, i) => [s, `var(--s${i + 1})`]));
+
+/* ---------- state ---------- */
+const KEY = 'ytcs-v1';
+const DEFAULTS = {
+  channel: { name: 'My Channel', niche: 'Education / how-to', subs: 0, watchHours: 0, shortsViews90: 0, uploads90: 0, avgViews: 0,
+    monthlyLongViews: 0, monthlyShortViews: 0, rpmLong: '', rpmShort: '', incomeGoal: 1000, handle: '', apiKey: '' },
+  cadence: { long: [2, 5], longTime: '17:00', short: [1, 3, 5], shortTime: '12:00' },
+  videos: [], income: [], deals: [], reminded: {}, prefs: { theme: 'auto', notify: false },
+};
+let S;
+try { S = JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { S = null; }
+S = S ? { ...structuredClone(DEFAULTS), ...S, channel: { ...DEFAULTS.channel, ...S.channel }, cadence: { ...DEFAULTS.cadence, ...S.cadence }, prefs: { ...DEFAULTS.prefs, ...S.prefs } } : structuredClone(DEFAULTS);
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Could not save — browser storage is unavailable.'); } }
+function commit() { save(); render(); }
+
+let view = (location.hash.slice(1) || 'dashboard');
+let calMonth = new Date(); calMonth.setDate(1);
+
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); }
+function applyTheme() { if (S.prefs.theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = S.prefs.theme; }
+function download(name, text, type = 'text/plain') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
+async function copy(text) { try { await navigator.clipboard.writeText(text); toast('Copied to clipboard'); } catch (e) { toast('Copy failed — select and copy manually.'); } }
+
+const rpm = () => { const n = L.NICHES[S.channel.niche] || L.NICHES.Other; return { long: Number(S.channel.rpmLong) || n.long, short: Number(S.channel.rpmShort) || n.short }; };
+const uploads90App = () => S.videos.filter((v) => v.status === 'Published' && v.publishAt && Date.now() - new Date(v.publishAt) < 90 * 864e5 && new Date(v.publishAt) <= new Date()).length;
+const sortedUpcoming = () => S.videos.filter((v) => v.status !== 'Published' && v.publishAt).sort((a, b) => new Date(a.publishAt) - new Date(b.publishAt));
+const monthKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}`;
+const incomeIn = (key) => S.income.filter((e) => (e.date || '').startsWith(key)).reduce((a, e) => a + (Number(e.amount) || 0), 0);
+
+/* ---------- views ---------- */
+const VIEWS = {};
+
+VIEWS.dashboard = () => {
+  const up = sortedUpcoming();
+  const next = up.find((v) => new Date(v.publishAt) >= new Date());
+  const ypp = L.yppProgress({ ...S.channel, uploads90: Math.max(S.channel.uploads90, uploads90App()) });
+  const full = ypp[1];
+  const perWeek = S.cadence.long.length + S.cadence.short.length;
+  const cons = L.consistency(S.videos, perWeek);
+  const thisMonth = incomeIn(monthKey());
+  const goal = Number(S.channel.incomeGoal) || 0;
+  const actions = buildActions();
+  const slotsL = L.nextSlots(S.videos, { days: S.cadence.long, time: S.cadence.longTime, format: 'long' }, new Date(), 3);
+  const slotsS = L.nextSlots(S.videos, { days: S.cadence.short, time: S.cadence.shortTime, format: 'short' }, new Date(), 3);
+  const slots = [...slotsL.map((d) => ({ d, f: 'long' })), ...slotsS.map((d) => ({ d, f: 'short' }))].sort((a, b) => a.d - b.d).slice(0, 5);
+  return `
+  <h1>${esc(S.channel.name)}</h1><p class="sub">Your channel at a glance — what's next, what's due, and how close you are to getting paid.</p>
+  <div class="grid g4">
+    <div class="card kpi"><div class="label">Next upload</div><div class="value" style="font-size:18px">${next ? esc(next.title || 'Untitled') : '—'}</div><div class="hint">${next ? `${fmtDate(next.publishAt)} · ${countdown(next.publishAt)}` : 'Nothing scheduled yet'}</div></div>
+    <div class="card kpi"><div class="label">Income this month</div><div class="value">${money(thisMonth)}</div><div class="bar ${goal && thisMonth >= goal ? 'ok' : ''}" title="Goal ${money(goal)}"><i style="width:${goal ? Math.min(100, thisMonth / goal * 100) : 0}%"></i></div><div class="hint">Goal ${money(goal)}/month</div></div>
+    <div class="card kpi"><div class="label">Partner Program</div><div class="value">${full.eligible ? 'Eligible' : Math.floor(full.pct) + '%'}</div><div class="bar ${full.eligible ? 'ok' : ''}"><i style="width:${full.pct}%"></i></div><div class="hint">${full.eligible ? 'Apply in YouTube Studio → Earn' : 'Toward full YPP (ad revenue)'}</div></div>
+    <div class="card kpi"><div class="label">Consistency (28 days)</div><div class="value">${cons.done}/${cons.target}</div><div class="bar ${cons.pct >= 100 ? 'ok' : ''}"><i style="width:${cons.pct}%"></i></div><div class="hint">Published vs. your ${perWeek}/week plan</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h2>To do</h2>${actions.length ? `<div class="list">${actions.map((a) => `<div class="item" data-act="${esc(a.go)}" data-id="${esc(a.id || '')}"><span class="pill ${a.level}">${a.level === 'bad' ? '!' : a.level === 'warn' ? '•' : '✓'} ${a.tag}</span><div class="t"><b>${esc(a.title)}</b><small>${esc(a.detail)}</small></div></div>`).join('')}</div>` : '<div class="empty">You\'re all caught up.</div>'}</div>
+    <div class="card"><h2>Upcoming</h2>${up.length ? `<div class="list">${up.slice(0, 6).map(videoItem).join('')}</div>` : '<div class="empty">No videos scheduled. Pick an open slot below or add one from the calendar.</div>'}</div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="row"><h2 style="margin:0">Open publishing slots</h2><span class="spacer"></span><span class="note">From your cadence in Settings</span></div>
+    <div class="list" style="margin-top:10px">${slots.length ? slots.map((s) => `<div class="item" data-slot="${s.d.toISOString()}" data-format="${s.f}"><span class="fmt ${s.f}"></span><div class="t"><b>${fmtDate(s.d.toISOString())}</b><small>${s.f === 'short' ? 'Short' : 'Long-form'} slot · click to plan a video here</small></div><span class="btn sm">Plan</span></div>`).join('') : '<div class="empty">Set posting days in Settings to get slot suggestions.</div>'}</div>
+  </div>`;
+};
+
+function countdown(iso) {
+  const ms = new Date(iso) - Date.now();
+  if (ms < 0) return 'overdue';
+  const h = Math.floor(ms / 36e5);
+  return h < 24 ? `in ${h}h ${Math.floor(ms % 36e5 / 6e4)}m` : `in ${Math.floor(h / 24)}d ${h % 24}h`;
+}
+
+function videoItem(v) {
+  const overdue = v.publishAt && new Date(v.publishAt) < new Date() && v.status !== 'Published';
+  return `<div class="item" data-edit="${v.id}"><span class="fmt ${v.format === 'short' ? 'short' : ''}"></span><div class="t"><b>${esc(v.title || 'Untitled video')}</b><small>${fmtDate(v.publishAt)}${v.dealId ? ' · Sponsored' : ''}</small></div><span class="pill ${overdue ? 'bad' : v.status === 'Scheduled' || v.status === 'Ready' ? 'good' : ''}">${overdue ? 'Overdue · ' : ''}${esc(v.status)}</span></div>`;
+}
+
+function buildActions() {
+  const out = [], now = Date.now();
+  for (const v of sortedUpcoming()) {
+    const h = (new Date(v.publishAt) - now) / 36e5;
+    if (h < 0) out.push({ level: 'bad', tag: 'Overdue', title: v.title || 'Untitled video', detail: `Was due ${fmtDate(v.publishAt)} — publish or reschedule`, go: 'edit', id: v.id });
+    else if (h < 72 && !['Ready', 'Scheduled'].includes(v.status)) out.push({ level: 'warn', tag: 'Due soon', title: v.title || 'Untitled video', detail: `${countdown(v.publishAt)} and still in ${v.status}`, go: 'edit', id: v.id });
+    else if (h < 168) {
+      const missing = L.CHECKLIST.filter(([k]) => !(v.checklist || {})[k] && !(k === 'disclosure' && !v.dealId) && !(k === 'chapters' && v.format === 'short')).length;
+      if (missing > 3) out.push({ level: 'warn', tag: 'Checklist', title: v.title || 'Untitled video', detail: `${missing} pre-publish items not done`, go: 'edit', id: v.id });
+    }
+  }
+  for (const d of S.deals) {
+    if (d.stage === 'Paid') continue;
+    if (d.due && new Date(d.due + 'T23:59') < new Date() && d.stage !== 'Delivered') out.push({ level: 'bad', tag: 'Sponsor', title: d.brand, detail: `Deliverable was due ${d.due}`, go: 'deal', id: d.id });
+    else if (d.stage === 'Delivered') out.push({ level: 'warn', tag: 'Invoice', title: d.brand, detail: `Delivered — chase payment of ${money(d.amount)}`, go: 'deal', id: d.id });
+  }
+  const ypp = L.yppProgress({ ...S.channel, uploads90: Math.max(S.channel.uploads90, uploads90App()) });
+  if (!S.channel.subs && !S.channel.watchHours) out.push({ level: 'warn', tag: 'Setup', title: 'Enter your channel stats', detail: 'So the app can track Partner Program progress', go: 'monetize' });
+  else if (ypp[1].eligible) out.push({ level: 'good', tag: 'YPP', title: 'You meet the Partner Program thresholds', detail: 'Apply in YouTube Studio → Earn', go: 'monetize' });
+  return out.slice(0, 8);
+}
+
+VIEWS.calendar = () => {
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  const start = new Date(y, m, 1 - new Date(y, m, 1).getDay());
+  const today = L.dateKey(new Date());
+  const byDay = {};
+  for (const v of S.videos) if (v.publishAt) (byDay[L.dateKey(new Date(v.publishAt))] ||= []).push(v);
+  let cells = '';
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    const k = L.dateKey(d), list = (byDay[k] || []).sort((a, b) => new Date(a.publishAt) - new Date(b.publishAt));
+    const future = d >= new Date(new Date().toDateString());
+    const hasL = list.some((v) => v.format !== 'short'), hasS = list.some((v) => v.format === 'short');
+    const slots = future ? [S.cadence.long.includes(d.getDay()) && !hasL ? 'Long slot' : '', S.cadence.short.includes(d.getDay()) && !hasS ? 'Short slot' : ''].filter(Boolean) : [];
+    cells += `<div class="day ${d.getMonth() !== m ? 'out' : ''} ${k === today ? 'today' : ''}" data-day="${k}">
+      <div class="n"><span>${d.getDate()}</span></div>
+      ${list.map((v) => `<div class="chip ${v.format === 'short' ? 'short' : ''} ${v.status === 'Published' ? 'pub' : ''}" draggable="true" data-edit="${v.id}" title="${esc(v.title)} — ${esc(v.status)}">${new Date(v.publishAt).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })} ${esc(v.title || 'Untitled')}</div>`).join('')}
+      ${slots.map((s) => `<div class="slot">+ ${s}</div>`).join('')}
+    </div>`;
+  }
+  return `
+  <h1>Content calendar</h1><p class="sub">Click a day to plan a video, drag videos to reschedule. Dashed boxes are open slots from your posting cadence.</p>
+  <div class="cal-head">
+    <button class="btn" id="calPrev" aria-label="Previous month">‹</button>
+    <h2 style="margin:0;min-width:150px;text-align:center">${calMonth.toLocaleString(undefined, { month: 'long', year: 'numeric' })}</h2>
+    <button class="btn" id="calNext" aria-label="Next month">›</button>
+    <button class="btn" id="calToday">Today</button>
+    <span class="spacer"></span>
+    <div class="legend"><span><i style="background:var(--long)"></i>Long-form</span><span><i style="background:var(--short)"></i>Short</span></div>
+    <button class="btn" id="icsExport">Export to Google/Apple Calendar (.ics)</button>
+  </div>
+  <div class="cal">${DAYS.map((d) => `<div class="dow">${d}</div>`).join('')}${cells}</div>`;
+};
+
+VIEWS.pipeline = () => `
+  <h1>Production pipeline</h1><p class="sub">Drag cards between stages. Move a video to “Scheduled” once it's uploaded as scheduled in YouTube Studio.</p>
+  <div class="board">${L.STATUSES.map((st) => {
+    const vids = S.videos.filter((v) => v.status === st).sort((a, b) => (a.publishAt ? +new Date(a.publishAt) : 9e15) - (b.publishAt ? +new Date(b.publishAt) : 9e15));
+    return `<div class="col" data-status="${st}"><h3><span>${st}</span><span class="pill">${vids.length}</span></h3>
+      ${vids.map((v) => `<div class="kcard ${v.format === 'short' ? 'short' : ''}" draggable="true" data-edit="${v.id}"><b>${esc(v.title || 'Untitled video')}</b><small>${v.publishAt ? fmtDate(v.publishAt, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : 'No date'} · ${v.format === 'short' ? 'Short' : 'Long'}${v.dealId ? ' · $' : ''}</small></div>`).join('')}
+      ${st === 'Idea' ? '<button class="btn sm" data-newidea style="width:100%">+ Idea</button>' : ''}
+    </div>`;
+  }).join('')}</div>`;
+
+VIEWS.monetize = () => {
+  const c = S.channel, app90 = uploads90App();
+  const ypp = L.yppProgress({ ...c, uploads90: Math.max(c.uploads90, app90) });
+  const r = rpm();
+  const est = L.estimateRevenue({ longViews: c.monthlyLongViews, shortViews: c.monthlyShortViews, rpmLong: r.long, rpmShort: r.short });
+  const need = L.viewsForGoal(c.incomeGoal, r.long);
+  const fanOk = ypp[0].eligible, fullOk = ypp[1].eligible;
+  const streams = [
+    ['Affiliate links', 'Available now', true, 'Link products you actually use (Amazon Associates, software referral programs). Put links at the top of the description and mention them in the video.'],
+    ['Sponsorships', 'Available now', true, 'Brands care about engagement and niche fit more than subscriber count. Use the Sponsors tab to price and track deals.'],
+    ['Digital products / services', 'Available now', true, 'Templates, presets, courses, coaching. Often the highest-margin stream for small channels.'],
+    ['Channel memberships', 'Early-access YPP (18+)', fanOk, 'Offer perks like badges, emojis, members-only videos or early access.'],
+    ['Super Thanks / Super Chat', 'Early-access YPP', fanOk, 'Viewers tip on videos and live streams. Mention it after delivering value.'],
+    ['YouTube Shopping / merch', 'Early-access YPP', fanOk, 'Tag products in videos; connect a supported merch store.'],
+    ['Ad revenue (long-form)', 'Full YPP', fullOk, 'You receive 55% of ad revenue on long-form. Videos over 8 minutes can carry mid-roll ads.'],
+    ['Shorts ad revenue', 'Full YPP', fullOk, 'Shorts share a pooled ad revenue; creators receive 45% of their allocated share.'],
+    ['YouTube Premium revenue', 'Full YPP', fullOk, 'Paid automatically based on watch time from Premium members.'],
+  ];
+  const statIn = (k, label, hint = '') => `<label class="f"><span>${label}</span><input type="number" min="0" data-ch="${k}" value="${esc(c[k] || '')}" placeholder="0">${hint}</label>`;
+  return `
+  <h1>Monetization</h1><p class="sub">Track Partner Program eligibility, estimate earnings, and see which income streams are open to you right now.</p>
+  <div class="grid g3">
+    <div class="card"><h2>Your channel stats</h2>
+      <p class="note" style="margin-top:-6px">Copy these from YouTube Studio → Analytics (or fetch subscribers automatically in Settings).</p>
+      ${statIn('subs', 'Subscribers')}
+      ${statIn('watchHours', 'Public watch hours — last 12 months')}
+      ${statIn('shortsViews90', 'Shorts views — last 90 days')}
+      ${statIn('uploads90', 'Public uploads — last 90 days', `<small class="note">This app counts ${app90} published in the last 90 days; the higher number is used.</small>`)}
+    </div>
+    ${ypp.map((t) => `<div class="card"><div class="row"><h2 style="margin:0">${t.name}</h2><span class="spacer"></span><span class="pill ${t.eligible ? 'good' : ''}">${t.eligible ? '✓ Eligible' : Math.floor(t.pct) + '%'}</span></div>
+      <p class="note">${t.unlocks}</p>
+      ${t.base.map(crit).join('')}
+      <div class="note" style="margin:10px 0 6px;text-transform:uppercase;letter-spacing:.06em">and one of</div>
+      ${t.either.map(crit).join('')}
+    </div>`).join('')}
+  </div>
+  <p class="note">Thresholds are YouTube's published global defaults; availability varies by country. You also need to live in an eligible region, follow the monetization policies, have 2-Step Verification on and link an AdSense account.</p>
+
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h2>Ad revenue estimator</h2>
+      <div class="grid g2" style="gap:10px">
+        <label class="f"><span>Niche</span><select data-ch="niche">${Object.keys(L.NICHES).map((n) => `<option ${n === c.niche ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
+        <label class="f"><span>Monthly income goal ($)</span><input type="number" min="0" data-ch="incomeGoal" value="${esc(c.incomeGoal)}"></label>
+        <label class="f"><span>Long-form RPM ($ per 1k views)</span><input type="number" min="0" step="0.1" data-ch="rpmLong" value="${esc(c.rpmLong)}" placeholder="${L.NICHES[c.niche]?.long ?? 3} (niche estimate)"></label>
+        <label class="f"><span>Shorts RPM ($ per 1k views)</span><input type="number" min="0" step="0.01" data-ch="rpmShort" value="${esc(c.rpmShort)}" placeholder="${L.NICHES[c.niche]?.short ?? 0.05} (niche estimate)"></label>
+        <label class="f"><span>Long-form views / month</span><input type="number" min="0" data-ch="monthlyLongViews" value="${esc(c.monthlyLongViews || '')}" placeholder="0"></label>
+        <label class="f"><span>Shorts views / month</span><input type="number" min="0" data-ch="monthlyShortViews" value="${esc(c.monthlyShortViews || '')}" placeholder="0"></label>
+      </div>
+      <div class="grid g3" style="gap:10px;margin-top:4px">
+        <div><div class="note">Per month</div><div class="big">${money(est.monthly)}</div></div>
+        <div><div class="note">Per year</div><div class="big">${money(est.yearly)}</div></div>
+        <div><div class="note">Split</div><div style="margin-top:6px">${money(est.long)} long<br>${money(est.short)} Shorts</div></div>
+      </div>
+      <p class="note">To earn <b>${money(c.incomeGoal)}/month</b> from long-form ads alone you'd need about <b>${Number.isFinite(need) ? fmtN(need) : '—'}</b> monthly views at ${money(r.long, 2)} RPM. ${fullOk ? '' : 'Ad revenue starts once you join full YPP — the other streams below can start earlier.'}</p>
+      <p class="note">RPM defaults are rough niche averages; replace them with your real RPM from YouTube Studio → Analytics → Revenue once you're monetized.</p>
+    </div>
+    <div class="card"><h2>Income streams</h2>
+      ${streams.map(([n, req, ok, tip]) => `<div class="stream"><span class="pill ${ok ? 'good' : ''}">${ok ? '✓ Open' : 'Locked'}</span><div class="t"><b>${n}</b><small>${req} — ${tip}</small></div></div>`).join('')}
+    </div>
+  </div>`;
+};
+const crit = (c) => `<div style="margin-bottom:10px"><div class="row" style="font-size:13px"><span>${c.label}</span><span class="spacer"></span><b style="font-variant-numeric:tabular-nums">${fmtN(c.value)} / ${fmtN(c.target)}</b></div><div class="bar ${c.met ? 'ok' : ''}"><i style="width:${c.pct}%"></i></div>${c.met ? '' : `<small class="note">${fmtN(c.remaining)} to go</small>`}</div>`;
+
+VIEWS.income = () => {
+  const rows = L.incomeByMonth(S.income, 12);
+  const total12 = rows.reduce((a, r) => a + r.total, 0);
+  const bySrc = {};
+  for (const r of rows) for (const [s, v] of Object.entries(r.bySource)) bySrc[s] = (bySrc[s] || 0) + v;
+  const list = [...S.income].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  return `
+  <h1>Income</h1><p class="sub">Log every payment — AdSense, sponsors, affiliates, memberships — to see what's really paying off.</p>
+  <div class="grid g4">
+    <div class="card kpi"><div class="label">This month</div><div class="value">${money(incomeIn(monthKey()))}</div><div class="hint">Goal ${money(S.channel.incomeGoal)}</div></div>
+    <div class="card kpi"><div class="label">Last month</div><div class="value">${money(incomeIn(monthKey(new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1))))}</div></div>
+    <div class="card kpi"><div class="label">Last 12 months</div><div class="value">${money(total12)}</div></div>
+    <div class="card kpi"><div class="label">Top source</div><div class="value" style="font-size:18px">${Object.keys(bySrc).length ? esc(Object.entries(bySrc).sort((a, b) => b[1] - a[1])[0][0]) : '—'}</div></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h2>Income by month, by source</h2>${incomeChart(rows)}</div>
+  <div class="grid g2" style="margin-top:14px;grid-template-columns:minmax(0,1fr) minmax(0,2fr)">
+    <div class="card"><h2>Add income</h2>
+      <form id="incomeForm">
+        <label class="f"><span>Date received</span><input type="date" name="date" required value="${L.dateKey(new Date())}"></label>
+        <label class="f"><span>Source</span><select name="source">${L.INCOME_SOURCES.map((s) => `<option>${s}</option>`).join('')}</select></label>
+        <label class="f"><span>Amount ($)</span><input type="number" name="amount" min="0" step="0.01" required></label>
+        <label class="f"><span>Note (optional)</span><input name="note" placeholder="e.g. Brand X — March video"></label>
+        <button class="btn primary" style="width:100%">Add</button>
+      </form>
+    </div>
+    <div class="card"><div class="row"><h2 style="margin:0">All entries</h2><span class="spacer"></span><button class="btn sm" id="incomeCsv">Export CSV</button></div>
+      <div class="tablewrap" style="margin-top:8px">${list.length ? `<table><thead><tr><th>Date</th><th>Source</th><th>Note</th><th class="num">Amount</th><th></th></tr></thead><tbody>
+      ${list.map((e) => `<tr><td>${esc(e.date)}</td><td><span class="pill"><span class="dot" style="background:${SOURCE_COLOR[e.source] || 'var(--muted)'}"></span>${esc(e.source)}</span></td><td>${esc(e.note)}</td><td class="num">${money(e.amount, 2)}</td><td><button class="btn sm danger" data-delincome="${e.id}" aria-label="Delete">✕</button></td></tr>`).join('')}
+      </tbody></table>` : '<div class="empty">No income logged yet.</div>'}</div>
+    </div>
+  </div>`;
+};
+
+function incomeChart(rows) {
+  const sources = L.INCOME_SOURCES.filter((s) => rows.some((r) => r.bySource[s]));
+  if (!sources.length) return '<div class="empty">Add income entries to see your chart.</div>';
+  const W = 900, H = 260, P = { l: 52, r: 8, t: 10, b: 28 };
+  const max = Math.max(...rows.map((r) => r.total), Number(S.channel.incomeGoal) || 0) * 1.1 || 1;
+  const step = niceStep(max / 4);
+  const top = Math.ceil(max / step) * step;
+  const y = (v) => P.t + (H - P.t - P.b) * (1 - v / top);
+  const bw = (W - P.l - P.r) / rows.length, barW = Math.min(44, bw * 0.62);
+  let g = '';
+  for (let v = 0; v <= top + 1e-9; v += step) g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${P.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${money(v)}</text>`;
+  const goal = Number(S.channel.incomeGoal) || 0;
+  if (goal) g += `<line x1="${P.l}" x2="${W - P.r}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--text2)" stroke-dasharray="4 4" stroke-width="1"/><text x="${W - P.r}" y="${y(goal) - 5}" text-anchor="end" font-size="11" fill="var(--text2)">Goal ${money(goal)}</text>`;
+  rows.forEach((r, i) => {
+    const x = P.l + i * bw + (bw - barW) / 2;
+    let acc = 0;
+    const segs = sources.filter((s) => r.bySource[s] > 0);
+    segs.forEach((s, j) => {
+      const v = r.bySource[s], y0 = y(acc), y1 = y(acc + v);
+      const h = Math.max(0, y0 - y1 - (j ? 2 : 0));
+      const isTop = j === segs.length - 1, rr = isTop ? Math.min(4, h) : 0;
+      const yb = y0 - (j ? 2 : 0);
+      g += `<path d="M${x},${yb} V${yb - h + rr} Q${x},${yb - h} ${x + rr},${yb - h} H${x + barW - rr} Q${x + barW},${yb - h} ${x + barW},${yb - h + rr} V${yb} Z" fill="${SOURCE_COLOR[s]}"/>`;
+      acc += v;
+    });
+    const [yy, mm] = r.month.split('-');
+    g += `<text x="${x + barW / 2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--muted)">${new Date(+yy, +mm - 1, 1).toLocaleString(undefined, { month: 'short' })}</text>`;
+    g += `<rect x="${P.l + i * bw}" y="${P.t}" width="${bw}" height="${H - P.t - P.b}" fill="transparent" data-bar="${i}"/>`;
+  });
+  incomeChart.rows = rows; incomeChart.sources = sources;
+  return `<div class="legend" style="margin-bottom:8px">${sources.map((s) => `<span><i style="background:${SOURCE_COLOR[s]}"></i>${esc(s)}</span>`).join('')}</div>
+    <div class="chart" id="incChart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Stacked bar chart of income per month by source; the full list is in the table below">${g}</svg><div class="tip" id="incTip"></div></div>`;
+}
+function niceStep(raw) { const p = 10 ** Math.floor(Math.log10(raw || 1)); const n = raw / p; return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p; }
+
+VIEWS.sponsors = () => {
+  const c = S.channel, dl = Object.keys(L.DELIVERABLES);
+  const pipeline = S.deals.filter((d) => d.stage !== 'Paid').reduce((a, d) => a + (Number(d.amount) || 0), 0);
+  const paid = S.deals.filter((d) => d.stage === 'Paid').reduce((a, d) => a + (Number(d.amount) || 0), 0);
+  return `
+  <h1>Sponsorships</h1><p class="sub">Price your deals, track every brand from first pitch to paid invoice, and never miss a deliverable.</p>
+  <div class="grid g3">
+    <div class="card"><h2>Rate calculator</h2>
+      <label class="f"><span>Average views per video (first 30 days)</span><input type="number" min="0" id="rcViews" value="${esc(c.avgViews || '')}" placeholder="e.g. 8000"></label>
+      <label class="f"><span>Deliverable</span><select id="rcType">${dl.map((d) => `<option ${d === 'Integration (60–90s)' ? 'selected' : ''}>${d}</option>`).join('')}</select></label>
+      <div class="note">Suggested price</div><div class="big" id="rcOut">—</div>
+      <p class="note">Based on the common $20–$50 per 1,000 views creator benchmark. Charge toward the top for high-value niches (finance, tech, B2B), strong engagement or usage rights; add fees for exclusivity, whitelisting or rush timelines.</p>
+    </div>
+    <div class="card kpi"><div class="label">Open pipeline</div><div class="value">${money(pipeline)}</div><div class="hint">${S.deals.filter((d) => d.stage !== 'Paid').length} active deals</div>
+      <div class="label" style="margin-top:16px">Paid (all time)</div><div class="value">${money(paid)}</div></div>
+    <div class="card"><h2>Pitch email</h2>
+      <label class="f"><span>Brand name</span><input id="pitchBrand" placeholder="e.g. Notion"></label>
+      <pre class="copy" id="pitchOut"></pre>
+      <button class="btn sm" id="pitchCopy">Copy email</button>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px"><div class="row"><h2 style="margin:0">Deals</h2><span class="spacer"></span><button class="btn primary sm" id="newDeal">+ New deal</button></div>
+    <div class="tablewrap" style="margin-top:8px">${S.deals.length ? `<table><thead><tr><th>Brand</th><th>Stage</th><th>Deliverable</th><th>Due</th><th>Video</th><th class="num">Amount</th></tr></thead><tbody>
+    ${[...S.deals].sort((a, b) => L.DEAL_STAGES.indexOf(a.stage) - L.DEAL_STAGES.indexOf(b.stage)).map((d) => {
+      const late = d.due && !['Delivered', 'Paid'].includes(d.stage) && new Date(d.due + 'T23:59') < new Date();
+      const v = S.videos.find((x) => x.dealId === d.id);
+      return `<tr style="cursor:pointer" data-deal="${d.id}"><td><b>${esc(d.brand)}</b></td><td><span class="pill ${d.stage === 'Paid' ? 'good' : d.stage === 'Delivered' ? 'warn' : ''}">${esc(d.stage)}</span></td><td>${esc(d.deliverable)}</td><td>${late ? `<span class="pill bad">Late · ${esc(d.due)}</span>` : esc(d.due || '—')}</td><td>${v ? esc(v.title || 'Untitled') : '—'}</td><td class="num">${money(d.amount)}</td></tr>`;
+    }).join('')}</tbody></table>` : '<div class="empty">No deals yet. Start by pitching 5 brands whose products your audience already uses.</div>'}</div>
+  </div>`;
+};
+
+VIEWS.settings = () => {
+  const c = S.channel, cad = S.cadence;
+  const toggles = (key) => `<div class="toggles" data-cad="${key}">${DAYS.map((d, i) => `<button type="button" data-d="${i}" class="${cad[key].includes(i) ? 'on' : ''}" aria-pressed="${cad[key].includes(i)}">${d}</button>`).join('')}</div>`;
+  return `
+  <h1>Settings</h1><p class="sub">Your channel, posting cadence, YouTube connection and backups. Everything is stored only in this browser.</p>
+  <div class="grid g2">
+    <div class="card"><h2>Channel</h2>
+      <label class="f"><span>Channel name</span><input data-ch="name" value="${esc(c.name)}"></label>
+      <label class="f"><span>Niche</span><select data-ch="niche">${Object.keys(L.NICHES).map((n) => `<option ${n === c.niche ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
+      <label class="f"><span>Theme</span><select id="theme"><option value="auto">Match system</option><option value="dark">Dark</option><option value="light">Light</option></select></label>
+    </div>
+    <div class="card"><h2>Posting cadence</h2>
+      <p class="note" style="margin-top:-6px">Consistency is one of the strongest growth levers. Pick days you can actually sustain.</p>
+      <label class="f"><span>Long-form days</span>${toggles('long')}</label>
+      <label class="f"><span>Long-form publish time</span><input type="time" data-cadtime="longTime" value="${esc(cad.longTime)}"></label>
+      <label class="f"><span>Shorts days</span>${toggles('short')}</label>
+      <label class="f"><span>Shorts publish time</span><input type="time" data-cadtime="shortTime" value="${esc(cad.shortTime)}"></label>
+      <p class="note">Tip: schedule 2–3 hours before your audience peaks (YouTube Studio → Analytics → Audience → “When your viewers are on YouTube”).</p>
+    </div>
+    <div class="card"><h2>Connect YouTube (optional)</h2>
+      <p class="note" style="margin-top:-6px">Pull public subscriber, view and video counts with a YouTube Data API v3 key. Create one free in the <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener">Google Cloud Console</a> and restrict it to this site's address. The key stays in this browser.</p>
+      <label class="f"><span>Channel handle or ID</span><input data-ch="handle" value="${esc(c.handle)}" placeholder="@yourchannel or UC…"></label>
+      <label class="f"><span>API key</span><input data-ch="apiKey" type="password" value="${esc(c.apiKey)}" autocomplete="off"></label>
+      <button class="btn" id="fetchStats">Fetch channel stats</button>
+      <p class="note">Watch hours and revenue are private to your channel and aren't available with an API key — copy them from YouTube Studio.</p>
+    </div>
+    <div class="card"><h2>Reminders</h2>
+      <p class="note" style="margin-top:-6px">While this tab is open you'll get a reminder when a video is due within 24 hours and isn't Ready or Scheduled yet. For reminders on your phone, export the calendar (.ics) from the Calendar tab.</p>
+      <button class="btn" id="notifyBtn">${S.prefs.notify && 'Notification' in window && Notification.permission === 'granted' ? 'Desktop notifications on ✓' : 'Enable desktop notifications'}</button>
+      <h2 style="margin-top:18px">Backup</h2>
+      <div class="row"><button class="btn" id="exportJson">Download backup</button><label class="btn">Restore backup<input type="file" id="importJson" accept="application/json" hidden></label><button class="btn" id="demo">Load demo data</button><button class="btn danger" id="reset">Reset everything</button></div>
+    </div>
+  </div>`;
+};
+
+/* ---------- modals ---------- */
+function openModal(html, bind) { $('#dialog').innerHTML = html; $('#modal').classList.add('open'); bind?.($('#dialog')); setTimeout(() => $('#dialog input, #dialog textarea, #dialog select')?.focus(), 0); }
+function closeModal() { $('#modal').classList.remove('open'); }
+$('#modal').addEventListener('mousedown', (e) => { if (e.target.id === 'modal') closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+const DESC_TEMPLATE = (v) => `${v.title || 'Video title'} — one-sentence summary with your main keyword${v.keyword ? ` (${v.keyword})` : ''}.
+
+🔗 Links mentioned:
+-
+
+💰 Support the channel / tools I use (affiliate links help the channel at no cost to you):
+-
+
+0:00 Intro
+0:30 Point one
+2:00 Point two
+5:00 Wrap-up
+
+📬 Business inquiries: your@email.com
+#${(v.keyword || 'youtube').replace(/\s+/g, '')}`;
+
+function editVideo(id, preset = {}) {
+  const isNew = !id;
+  const v = isNew ? { id: uid(), title: '', keyword: '', format: 'long', status: 'Idea', publishAt: '', description: '', tags: '', notes: '', checklist: {}, dealId: '', ...preset } : structuredClone(S.videos.find((x) => x.id === id));
+  if (!v) return;
+  openModal(`
+    <div class="row"><h2 style="margin:0">${isNew ? 'New video' : 'Edit video'}</h2><span class="spacer"></span><button class="btn sm" id="vClose" aria-label="Close">✕</button></div>
+    <div class="grid g2" style="margin-top:12px">
+      <div>
+        <label class="f"><span>Title</span><input id="vTitle" maxlength="100" value="${esc(v.title)}" placeholder="e.g. 7 Budgeting Mistakes That Keep You Broke (2026)"></label>
+        <div id="vScore"></div>
+        <label class="f" style="margin-top:10px"><span>Target keyword</span><input id="vKeyword" value="${esc(v.keyword)}" placeholder="what would someone type into search?"></label>
+        <div class="grid g2" style="gap:10px">
+          <label class="f"><span>Format</span><select id="vFormat"><option value="long" ${v.format !== 'short' ? 'selected' : ''}>Long-form</option><option value="short" ${v.format === 'short' ? 'selected' : ''}>Short</option></select></label>
+          <label class="f"><span>Status</span><select id="vStatus">${L.STATUSES.map((s) => `<option ${s === v.status ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
+        </div>
+        <label class="f"><span>Publish date & time</span><div class="row" style="flex-wrap:nowrap"><input type="datetime-local" id="vDate" value="${toLocalInput(v.publishAt)}"><button class="btn sm" id="vNextSlot" type="button">Next open slot</button></div></label>
+        <label class="f"><span>Sponsor</span><select id="vDeal"><option value="">None</option>${S.deals.map((d) => `<option value="${d.id}" ${d.id === v.dealId ? 'selected' : ''}>${esc(d.brand)} (${esc(d.stage)})</option>`).join('')}</select></label>
+        <label class="f"><span>Notes / script outline</span><textarea id="vNotes" placeholder="Hook, key points, B-roll ideas…">${esc(v.notes)}</textarea></label>
+      </div>
+      <div>
+        <label class="f"><span class="row"><span>Description</span><span class="spacer"></span><button class="btn sm" type="button" id="vTpl">Insert template</button></span><textarea id="vDesc" style="min-height:170px">${esc(v.description)}</textarea></label>
+        <div id="vChapters" class="note"></div>
+        <label class="f" style="margin-top:10px"><span class="row"><span>Tags (comma separated)</span><span class="spacer"></span><button class="btn sm" type="button" id="vGenTags">Generate</button></span><textarea id="vTags" style="min-height:60px">${esc(v.tags)}</textarea></label>
+        <div id="vTagCount" class="note"></div>
+      </div>
+    </div>
+    <h3 style="margin-top:10px">Pre-publish checklist</h3>
+    <div class="checks">${L.CHECKLIST.map(([k, label]) => `<label><input type="checkbox" data-ck="${k}" ${v.checklist?.[k] ? 'checked' : ''}> ${label}</label>`).join('')}</div>
+    <div class="foot">
+      ${isNew ? '' : '<button class="btn danger" id="vDelete">Delete</button><button class="btn" id="vDup">Duplicate</button>'}
+      <button class="btn" id="vCopy">Copy for YouTube Studio</button>
+      <span class="spacer"></span>
+      <button class="btn primary" id="vSave">Save</button>
+    </div>`, (d) => {
+    const read = () => {
+      v.title = $('#vTitle', d).value.trim(); v.keyword = $('#vKeyword', d).value.trim(); v.format = $('#vFormat', d).value; v.status = $('#vStatus', d).value;
+      const dv = $('#vDate', d).value; v.publishAt = dv ? new Date(dv).toISOString() : ''; v.dealId = $('#vDeal', d).value;
+      v.notes = $('#vNotes', d).value; v.description = $('#vDesc', d).value; v.tags = $('#vTags', d).value;
+      v.checklist = Object.fromEntries($$('[data-ck]', d).map((c) => [c.dataset.ck, c.checked]));
+      return v;
+    };
+    const score = () => {
+      const r = L.titleScore($('#vTitle', d).value, $('#vKeyword', d).value);
+      $('#vScore', d).innerHTML = `<div class="meter"><span>Title score</span><div class="bar ${r.score >= 70 ? 'ok' : ''}"><i style="width:${r.score}%"></i></div><b>${r.score}</b><span>${r.len}/100</span></div>${r.tips.length ? `<ul class="tips">${r.tips.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}`;
+    };
+    const chap = () => {
+      if ($('#vFormat', d).value === 'short') { $('#vChapters', d).textContent = ''; return; }
+      const r = L.checkChapters($('#vDesc', d).value);
+      $('#vChapters', d).innerHTML = r.ok ? `<span class="pill good">✓ ${r.count} chapters</span>` : `Chapters: ${r.problems.map(esc).join(' ')}`;
+    };
+    const tagCount = () => {
+      const tags = $('#vTags', d).value.split(',').map((t) => t.trim()).filter(Boolean);
+      const n = tags.reduce((a, t, i) => a + t.length + (t.includes(' ') ? 2 : 0) + (i ? 1 : 0), 0);
+      $('#vTagCount', d).innerHTML = `${tags.length} tags · <span style="color:${n > 500 ? 'var(--bad)' : 'inherit'}">${n}/500 characters</span>`;
+    };
+    score(); chap(); tagCount();
+    $('#vTitle', d).oninput = $('#vKeyword', d).oninput = score;
+    $('#vDesc', d).oninput = chap; $('#vFormat', d).onchange = chap; $('#vTags', d).oninput = tagCount;
+    $('#vClose', d).onclick = closeModal;
+    $('#vTpl', d).onclick = () => { read(); const ta = $('#vDesc', d); ta.value = DESC_TEMPLATE(v) + (ta.value ? '\n\n' + ta.value : ''); chap(); };
+    $('#vGenTags', d).onclick = () => { read(); $('#vTags', d).value = L.generateTags(v.title, v.keyword, S.channel.niche).join(', '); tagCount(); };
+    $('#vNextSlot', d).onclick = () => {
+      const f = $('#vFormat', d).value, cad = S.cadence;
+      const others = S.videos.filter((x) => x.id !== v.id);
+      const [s] = L.nextSlots(others, { days: f === 'short' ? cad.short : cad.long, time: f === 'short' ? cad.shortTime : cad.longTime, format: f }, new Date(), 1);
+      if (s) $('#vDate', d).value = toLocalInput(s.toISOString()); else toast('Set your posting days in Settings first.');
+    };
+    $('#vCopy', d).onclick = () => { read(); copy(`TITLE:\n${v.title}\n\nDESCRIPTION:\n${v.description}\n\nTAGS:\n${v.tags}`); };
+    $('#vSave', d).onclick = () => {
+      read();
+      if (v.status === 'Published' && !v.publishAt) v.publishAt = new Date().toISOString();
+      const i = S.videos.findIndex((x) => x.id === v.id);
+      if (i >= 0) S.videos[i] = v; else S.videos.push(v);
+      closeModal(); commit(); toast(isNew ? 'Video added' : 'Video saved');
+    };
+    if (!isNew) {
+      $('#vDelete', d).onclick = () => { if (confirm('Delete this video?')) { S.videos = S.videos.filter((x) => x.id !== v.id); closeModal(); commit(); toast('Video deleted'); } };
+      $('#vDup', d).onclick = () => { read(); const c = { ...structuredClone(v), id: uid(), title: v.title + ' (copy)', status: 'Idea', publishAt: '', checklist: {} }; S.videos.push(c); closeModal(); commit(); editVideo(c.id); };
+    }
+  });
+}
+
+function editDeal(id) {
+  const isNew = !id;
+  const d0 = isNew ? { id: uid(), brand: '', contact: '', stage: 'Prospect', deliverable: 'Integration (60–90s)', amount: '', due: '', notes: '' } : structuredClone(S.deals.find((x) => x.id === id));
+  if (!d0) return;
+  const suggest = L.sponsorRate(S.channel.avgViews, d0.deliverable);
+  openModal(`
+    <div class="row"><h2 style="margin:0">${isNew ? 'New sponsor deal' : esc(d0.brand)}</h2><span class="spacer"></span><button class="btn sm" id="dClose" aria-label="Close">✕</button></div>
+    <div class="grid g2" style="margin-top:12px;gap:10px">
+      <label class="f"><span>Brand</span><input id="dBrand" value="${esc(d0.brand)}" required></label>
+      <label class="f"><span>Contact (email / name)</span><input id="dContact" value="${esc(d0.contact)}"></label>
+      <label class="f"><span>Stage</span><select id="dStage">${L.DEAL_STAGES.map((s) => `<option ${s === d0.stage ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
+      <label class="f"><span>Deliverable</span><select id="dDel">${Object.keys(L.DELIVERABLES).map((s) => `<option ${s === d0.deliverable ? 'selected' : ''}>${s}</option>`).join('')}</select></label>
+      <label class="f"><span>Amount ($)</span><input id="dAmount" type="number" min="0" value="${esc(d0.amount)}" placeholder="${S.channel.avgViews ? `suggested ${money(suggest.low)}–${money(suggest.high)}` : ''}"></label>
+      <label class="f"><span>Deliverable due</span><input id="dDue" type="date" value="${esc(d0.due)}"></label>
+    </div>
+    <label class="f"><span>Notes (talking points, usage rights, payment terms…)</span><textarea id="dNotes">${esc(d0.notes)}</textarea></label>
+    <p class="note">Moving a deal to <b>Paid</b> automatically logs the amount in Income.</p>
+    <div class="foot">${isNew ? '' : '<button class="btn danger" id="dDelete">Delete</button>'}<span class="spacer"></span><button class="btn primary" id="dSave">Save</button></div>`, (m) => {
+    $('#dClose', m).onclick = closeModal;
+    $('#dSave', m).onclick = () => {
+      const d = { ...d0, brand: $('#dBrand', m).value.trim() || 'Unnamed brand', contact: $('#dContact', m).value.trim(), stage: $('#dStage', m).value, deliverable: $('#dDel', m).value, amount: $('#dAmount', m).value, due: $('#dDue', m).value, notes: $('#dNotes', m).value };
+      if (d.stage === 'Paid' && d0.stage !== 'Paid' && Number(d.amount) > 0 && !S.income.some((e) => e.dealId === d.id)) {
+        S.income.push({ id: uid(), date: L.dateKey(new Date()), source: 'Sponsorship', amount: Number(d.amount), note: d.brand, dealId: d.id });
+        toast(`Logged ${money(d.amount)} from ${d.brand} in Income`);
+      } else toast('Deal saved');
+      const i = S.deals.findIndex((x) => x.id === d.id);
+      if (i >= 0) S.deals[i] = d; else S.deals.push(d);
+      closeModal(); commit();
+    };
+    if (!isNew) $('#dDelete', m).onclick = () => { if (confirm('Delete this deal?')) { S.deals = S.deals.filter((x) => x.id !== d0.id); S.videos.forEach((v) => { if (v.dealId === d0.id) v.dealId = ''; }); closeModal(); commit(); } };
+  });
+}
+
+/* ---------- rendering & events ---------- */
+function render() {
+  if (!VIEWS[view]) view = 'dashboard';
+  $$('#nav button').forEach((b) => b.classList.toggle('active', b.dataset.view === view));
+  $('#brandName').textContent = S.channel.name && S.channel.name !== 'My Channel' ? S.channel.name : 'YouTube Creator Studio';
+  const y = scrollY;
+  $('#view').innerHTML = VIEWS[view]();
+  scrollTo(0, y);
+  bindView();
+}
+
+function go(v) { view = v; history.replaceState(null, '', '#' + v); scrollTo(0, 0); render(); }
+$('#nav').onclick = (e) => { const b = e.target.closest('button[data-view]'); if (b) go(b.dataset.view); };
+$('#newVideo').onclick = () => editVideo(null);
+
+function bindView() {
+  const root = $('#view');
+  root.onclick = (e) => {
+    const t = e.target;
+    const ed = t.closest('[data-edit]'); if (ed) return editVideo(ed.dataset.edit);
+    const act = t.closest('[data-act]'); if (act) { const a = act.dataset.act; return a === 'edit' ? editVideo(act.dataset.id) : a === 'deal' ? editDeal(act.dataset.id) : go(a); }
+    const sl = t.closest('[data-slot]'); if (sl) return editVideo(null, { publishAt: sl.dataset.slot, format: sl.dataset.format, status: 'Idea' });
+    const day = t.closest('[data-day]');
+    if (day) {
+      const [yy, mm, dd] = day.dataset.day.split('-').map(Number);
+      const dt = new Date(yy, mm - 1, dd);
+      const isShort = S.cadence.short.includes(dt.getDay()) && !S.cadence.long.includes(dt.getDay());
+      const [h, mi] = (isShort ? S.cadence.shortTime : S.cadence.longTime).split(':').map(Number);
+      dt.setHours(h || 0, mi || 0);
+      return editVideo(null, { publishAt: dt.toISOString(), format: isShort ? 'short' : 'long' });
+    }
+    if (t.closest('[data-newidea]')) return editVideo(null, { status: 'Idea' });
+    const dl = t.closest('[data-deal]'); if (dl) return editDeal(dl.dataset.deal);
+    const di = t.closest('[data-delincome]'); if (di) { S.income = S.income.filter((x) => x.id !== di.dataset.delincome); commit(); return toast('Entry deleted'); }
+  };
+  // channel fields (monetize + settings)
+  $$('[data-ch]', root).forEach((el) => el.addEventListener('change', () => {
+    const k = el.dataset.ch; S.channel[k] = el.type === 'number' ? (el.value === '' ? '' : Number(el.value)) : el.value; commit();
+  }));
+
+  if (view === 'calendar') {
+    $('#calPrev').onclick = () => { calMonth.setMonth(calMonth.getMonth() - 1); render(); };
+    $('#calNext').onclick = () => { calMonth.setMonth(calMonth.getMonth() + 1); render(); };
+    $('#calToday').onclick = () => { calMonth = new Date(); calMonth.setDate(1); render(); };
+    $('#icsExport').onclick = () => { if (!S.videos.some((v) => v.publishAt)) return toast('No scheduled videos to export.'); download('youtube-schedule.ics', L.toICS(S.videos), 'text/calendar'); toast('Calendar file downloaded — open it to import'); };
+    dnd('.chip', '.day', (id, cell) => {
+      const v = S.videos.find((x) => x.id === id), [yy, mm, dd] = cell.dataset.day.split('-').map(Number);
+      const d = new Date(v.publishAt); d.setFullYear(yy, mm - 1, dd); v.publishAt = d.toISOString();
+      commit(); toast('Rescheduled to ' + fmtDate(v.publishAt));
+    });
+  }
+  if (view === 'pipeline') dnd('.kcard', '.col', (id, col) => {
+    const v = S.videos.find((x) => x.id === id); v.status = col.dataset.status;
+    if (v.status === 'Published' && !v.publishAt) v.publishAt = new Date().toISOString();
+    commit();
+  });
+  if (view === 'income') {
+    $('#incomeForm').onsubmit = (e) => {
+      e.preventDefault(); const f = new FormData(e.target);
+      S.income.push({ id: uid(), date: f.get('date'), source: f.get('source'), amount: Number(f.get('amount')), note: f.get('note') });
+      commit(); toast('Income added');
+    };
+    $('#incomeCsv').onclick = () => download('youtube-income.csv', L.toCSV(S.income, ['date', 'source', 'amount', 'note']), 'text/csv');
+    bindChartHover();
+  }
+  if (view === 'sponsors') {
+    const upd = () => {
+      const views = Number($('#rcViews').value) || 0, type = $('#rcType').value;
+      if (views !== (Number(S.channel.avgViews) || 0)) { S.channel.avgViews = views; save(); }
+      const r = L.sponsorRate(views, type);
+      $('#rcOut').textContent = views ? `${money(r.low)} – ${money(r.high)}` : '—';
+      const brand = $('#pitchBrand').value.trim() || '[Brand]';
+      $('#pitchOut').textContent = `Subject: ${S.channel.name} × ${brand} — partnership idea
+
+Hi ${brand} team,
+
+I run ${S.channel.name}, a YouTube channel about ${S.channel.niche.toLowerCase()} with ${fmtN(S.channel.subs)} subscribers. My videos average ${fmtN(views)} views${S.channel.watchHours ? ` and viewers watched ${fmtN(S.channel.watchHours)} hours in the last year` : ''}.
+
+My audience already asks about [problem ${brand} solves], so I'd love to feature ${brand} in an upcoming video as a ${type.toLowerCase()}. I'd show how I actually use it, with a tracked link and code in the description and pinned comment.
+
+Rate for this placement: ${views ? `${money(r.low)}–${money(r.high)}` : '[your rate]'}. Happy to share my media kit and recent analytics.
+
+Would you be open to a quick chat?
+
+Thanks,
+[Your name]
+${S.channel.name}`;
+    };
+    $('#rcViews').oninput = upd; $('#rcType').onchange = upd; $('#pitchBrand').oninput = upd; upd();
+    $('#pitchCopy').onclick = () => copy($('#pitchOut').textContent);
+    $('#newDeal').onclick = () => editDeal(null);
+  }
+  if (view === 'settings') {
+    $('#theme').value = S.prefs.theme;
+    $('#theme').onchange = (e) => { S.prefs.theme = e.target.value; applyTheme(); save(); };
+    $$('[data-cad]').forEach((g) => g.onclick = (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      const k = g.dataset.cad, d = Number(b.dataset.d), arr = S.cadence[k];
+      S.cadence[k] = arr.includes(d) ? arr.filter((x) => x !== d) : [...arr, d].sort();
+      commit();
+    });
+    $$('[data-cadtime]').forEach((el) => el.onchange = () => { S.cadence[el.dataset.cadtime] = el.value; commit(); });
+    $('#fetchStats').onclick = fetchStats;
+    $('#notifyBtn').onclick = async () => {
+      if (!('Notification' in window)) return toast('This browser does not support notifications.');
+      const p = await Notification.requestPermission();
+      S.prefs.notify = p === 'granted'; commit();
+      toast(p === 'granted' ? 'Notifications enabled' : 'Notifications blocked — you\'ll still see in-app reminders.');
+    };
+    $('#exportJson').onclick = () => download(`creator-studio-backup-${L.dateKey(new Date())}.json`, JSON.stringify(S, null, 2), 'application/json');
+    $('#importJson').onchange = async (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      try {
+        const d = JSON.parse(await f.text());
+        if (!Array.isArray(d.videos) || !d.channel) throw new Error('bad');
+        S = { ...structuredClone(DEFAULTS), ...d, channel: { ...DEFAULTS.channel, ...d.channel }, cadence: { ...DEFAULTS.cadence, ...d.cadence }, prefs: { ...DEFAULTS.prefs, ...d.prefs } };
+        applyTheme(); commit(); toast('Backup restored');
+      } catch (err) { toast('That file is not a valid backup.'); }
+    };
+    $('#demo').onclick = () => { if (!S.videos.length || confirm('Replace your current data with demo data?')) { S = demoData(); applyTheme(); commit(); toast('Demo data loaded'); } };
+    $('#reset').onclick = () => { if (confirm('Delete all videos, income, deals and settings from this browser?')) { S = structuredClone(DEFAULTS); applyTheme(); commit(); toast('Everything reset'); } };
+  }
+}
+
+function dnd(itemSel, zoneSel, onDrop) {
+  let dragId = null;
+  $$(itemSel).forEach((el) => {
+    el.addEventListener('dragstart', (e) => { dragId = el.dataset.edit; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragId); });
+  });
+  $$(zoneSel).forEach((z) => {
+    z.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); z.classList.add('drop'); } });
+    z.addEventListener('dragleave', () => z.classList.remove('drop'));
+    z.addEventListener('drop', (e) => { e.preventDefault(); z.classList.remove('drop'); if (dragId) onDrop(dragId, z); dragId = null; });
+  });
+}
+
+function bindChartHover() {
+  const wrap = $('#incChart'); if (!wrap) return;
+  const tip = $('#incTip'), svg = $('svg', wrap);
+  const show = (i, evt) => {
+    const r = incomeChart.rows[i], [yy, mm] = r.month.split('-');
+    tip.innerHTML = `<b>${new Date(+yy, +mm - 1, 1).toLocaleString(undefined, { month: 'long', year: 'numeric' })}</b>` +
+      incomeChart.sources.filter((s) => r.bySource[s]).map((s) => `<div><span><i style="background:${SOURCE_COLOR[s]}"></i>${esc(s)}</span><span>${money(r.bySource[s], 2)}</span></div>`).join('') +
+      `<div style="border-top:1px solid var(--line);margin-top:4px;padding-top:4px"><b>Total</b><b>${money(r.total, 2)}</b></div>`;
+    tip.style.display = 'block';
+    const box = wrap.getBoundingClientRect();
+    let x = evt.clientX - box.left + 14; if (x + tip.offsetWidth > box.width) x = evt.clientX - box.left - tip.offsetWidth - 14;
+    tip.style.left = Math.max(0, x) + 'px'; tip.style.top = Math.max(0, evt.clientY - box.top - 20) + 'px';
+  };
+  svg.addEventListener('mousemove', (e) => { const b = e.target.closest('[data-bar]'); if (b) show(+b.dataset.bar, e); else tip.style.display = 'none'; });
+  svg.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+}
+
+async function fetchStats() {
+  const { apiKey, handle } = S.channel;
+  if (!apiKey || !handle) return toast('Enter your channel handle and API key first.');
+  const h = handle.trim();
+  const q = h.startsWith('UC') ? `id=${encodeURIComponent(h)}` : `forHandle=${encodeURIComponent(h.startsWith('@') ? h : '@' + h)}`;
+  try {
+    const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&${q}&key=${encodeURIComponent(apiKey)}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || res.statusText);
+    const ch = data.items?.[0]; if (!ch) throw new Error('Channel not found');
+    const st = ch.statistics;
+    if (!st.hiddenSubscriberCount) S.channel.subs = Number(st.subscriberCount);
+    if (S.channel.name === 'My Channel' || !S.channel.name) S.channel.name = ch.snippet.title;
+    commit();
+    toast(`${ch.snippet.title}: ${fmtN(st.subscriberCount)} subscribers · ${fmtN(st.viewCount)} total views · ${fmtN(st.videoCount)} videos`);
+  } catch (e) { toast('YouTube API error: ' + e.message); }
+}
+
+/* ---------- reminders ---------- */
+function checkReminders() {
+  const now = Date.now();
+  for (const v of S.videos) {
+    if (!v.publishAt || ['Ready', 'Scheduled', 'Published'].includes(v.status)) continue;
+    const h = (new Date(v.publishAt) - now) / 36e5;
+    const key = v.id + '@' + v.publishAt;
+    if (h > 0 && h <= 24 && !S.reminded[key]) {
+      S.reminded[key] = 1; save();
+      const msg = `“${v.title || 'Untitled video'}” goes out ${countdown(v.publishAt)} and is still in ${v.status}.`;
+      if (S.prefs.notify && 'Notification' in window && Notification.permission === 'granted') new Notification('Upload reminder', { body: msg });
+      toast(msg);
+    }
+  }
+}
+
+/* ---------- demo ---------- */
+function demoData() {
+  const d = structuredClone(DEFAULTS);
+  const at = (days, hh = 17) => { const x = new Date(); x.setDate(x.getDate() + days); x.setHours(hh, 0, 0, 0); return x.toISOString(); };
+  const mk = (title, days, status, format = 'long', extra = {}) => ({ id: uid(), title, keyword: '', format, status, publishAt: days === null ? '' : at(days, format === 'short' ? 12 : 17), description: '', tags: '', notes: '', checklist: {}, dealId: '', ...extra });
+  Object.assign(d.channel, { name: 'Money Made Simple', niche: 'Personal finance / investing', subs: 740, watchHours: 2650, shortsViews90: 410000, uploads90: 0, avgViews: 4200, monthlyLongViews: 38000, monthlyShortViews: 160000, incomeGoal: 1500 });
+  const deal = { id: uid(), brand: 'BudgetApp', contact: 'partners@example.com', stage: 'Contracted', deliverable: 'Integration (60–90s)', amount: 180, due: L.dateKey(new Date(Date.now() + 9 * 864e5)), notes: '60s integration, code SIMPLE20' };
+  d.deals = [deal,
+    { id: uid(), brand: 'CardCo', contact: '', stage: 'Pitched', deliverable: 'Mention (15–30s)', amount: 90, due: '', notes: '' },
+    { id: uid(), brand: 'InvestHub', contact: '', stage: 'Delivered', deliverable: 'Integration (60–90s)', amount: 200, due: L.dateKey(new Date(Date.now() - 5 * 864e5)), notes: 'Invoice sent' }];
+  d.videos = [
+    mk('7 Budgeting Mistakes That Keep You Broke', -20, 'Published', 'long', { keyword: 'budgeting mistakes' }),
+    mk('How I Saved $10,000 in 12 Months', -13, 'Published'),
+    mk('The 50/30/20 Rule in 60 Seconds', -9, 'Published', 'short'),
+    mk('Index Funds vs ETFs: Which Should You Buy in 2026?', -6, 'Published', 'long', { keyword: 'index funds vs etfs' }),
+    mk('Emergency Fund: How Much Is Enough?', 1, 'Editing', 'long', { keyword: 'emergency fund' }),
+    mk('One Money Habit That Changed Everything', 2, 'Ready', 'short'),
+    mk('Best Budgeting Apps (Honest Review)', 8, 'Scripting', 'long', { dealId: deal.id, keyword: 'best budgeting apps' }),
+    mk('Stop Paying These 5 Subscriptions', 4, 'Filming', 'short'),
+    mk('How to Start Investing With $100', null, 'Idea'),
+  ];
+  const m = (back, day) => { const x = new Date(); x.setMonth(x.getMonth() - back, day); return L.dateKey(x); };
+  d.income = [
+    { id: uid(), date: m(5, 12), source: 'Affiliate', amount: 42, note: 'Broker referral' },
+    { id: uid(), date: m(4, 10), source: 'Affiliate', amount: 65, note: '' },
+    { id: uid(), date: m(3, 8), source: 'Affiliate', amount: 88, note: '' },
+    { id: uid(), date: m(3, 20), source: 'Sponsorship', amount: 150, note: 'CardCo test' },
+    { id: uid(), date: m(2, 14), source: 'Digital products', amount: 120, note: 'Budget template' },
+    { id: uid(), date: m(2, 22), source: 'Affiliate', amount: 97, note: '' },
+    { id: uid(), date: m(1, 5), source: 'Digital products', amount: 185, note: 'Budget template' },
+    { id: uid(), date: m(1, 18), source: 'Affiliate', amount: 131, note: '' },
+    { id: uid(), date: m(1, 25), source: 'Sponsorship', amount: 200, note: 'InvestHub' },
+    { id: uid(), date: m(0, 2), source: 'Affiliate', amount: 74, note: '' },
+    { id: uid(), date: m(0, 3), source: 'Digital products', amount: 96, note: 'Budget template' },
+  ];
+  return d;
+}
+
+applyTheme();
+render();
+checkReminders();
+setInterval(checkReminders, 60000);
+setInterval(() => { if (view === 'dashboard' && !$('#modal').classList.contains('open')) render(); }, 60000);
+addEventListener('hashchange', () => { const v = location.hash.slice(1); if (VIEWS[v] && v !== view) { view = v; render(); } });
+</script>
+</body>
+</html>

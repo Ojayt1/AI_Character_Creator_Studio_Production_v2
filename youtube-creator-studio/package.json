@@ -1,0 +1,11 @@
+{
+  "name": "youtube-creator-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plan, schedule and monetize YouTube content — a browser-only creator dashboard.",
+  "scripts": {
+    "dev": "python -m http.server 8081",
+    "start": "python -m http.server 8081",
+    "test": "node --test"
+  }
+}
