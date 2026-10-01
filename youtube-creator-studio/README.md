@@ -1,6 +1,6 @@
-# YouTube Creator Studio
+# Cadence — creator planner for YouTube
 
-A browser-only dashboard for planning, scheduling and making money from a YouTube channel. No account, no server, no build step — your data stays in your browser (`localStorage`), and you can back it up to a JSON file.
+Cadence is a browser-only dashboard for planning, scheduling and making money from a YouTube channel. No account, no server, no build step — your data stays in your browser (`localStorage`), and you can back it up to a JSON file.
 
 ## Features
 
@@ -37,7 +37,7 @@ cd youtube-creator-studio
 python -m http.server 8081   # or: npm start
 ```
 
-Open http://localhost:8081. Go to **Settings → Load demo data** to explore with sample content.
+Open http://localhost:8081. The first time it opens it shows example data for a made-up channel; click **Clear examples and start** to begin your own.
 
 ## Test
 

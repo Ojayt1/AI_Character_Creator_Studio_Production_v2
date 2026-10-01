@@ -3,12 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YouTube Creator Studio</title>
+<title>Cadence Creator Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 :root{
   color-scheme:dark;
-  --bg:#080b11;--panel:#0e141e;--panel2:#121925;--line:#263143;--muted:#8793a7;--text:#f3f5f9;--text2:#c3cad6;
-  --accent:#7358f5;--accent2:#805ef7;--accentSoft:#211b42;--accentLine:#3c3272;
+  --bg:#0a0e10;--panel:#11171a;--panel2:#161e22;--line:#25333a;--muted:#8a9aa1;--text:#f3f5f9;--text2:#c3cad6;
+  --accent:#2bb3a3;--accent2:#5fd4c5;--onAccent:#04201c;--accentSoft:#0f2b2a;--accentLine:#1f5752;
+  --display:"Bricolage Grotesque",Figtree,system-ui,sans-serif;
   --red:#ff4e45;--good:#1fb57a;--warn:#e0a100;--bad:#e66767;
   --long:#3987e5;--short:#d95926;
   --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767;
@@ -16,28 +19,30 @@
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]){
     color-scheme:light;
-    --bg:#f4f5f8;--panel:#ffffff;--panel2:#f7f8fb;--line:#dde2ea;--muted:#5e6878;--text:#11151c;--text2:#3a4250;
-    --accentSoft:#ece8ff;--accentLine:#c8bdfc;
+    --bg:#f3f6f6;--panel:#ffffff;--panel2:#f6f9f9;--line:#d9e2e3;--muted:#56666b;--text:#0e1517;--text2:#34454a;
+    --accent:#0e8577;--accent2:#0b6d62;--onAccent:#ffffff;--accentSoft:#e2f4f1;--accentLine:#a3d9d1;
     --long:#2a78d6;--short:#eb6834;
     --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
   }
 }
 :root[data-theme="light"]{
   color-scheme:light;
-  --bg:#f4f5f8;--panel:#ffffff;--panel2:#f7f8fb;--line:#dde2ea;--muted:#5e6878;--text:#11151c;--text2:#3a4250;
-  --accentSoft:#ece8ff;--accentLine:#c8bdfc;
+  --bg:#f3f6f6;--panel:#ffffff;--panel2:#f6f9f9;--line:#d9e2e3;--muted:#56666b;--text:#0e1517;--text2:#34454a;
+  --accent:#0e8577;--accent2:#0b6d62;--onAccent:#ffffff;--accentSoft:#e2f4f1;--accentLine:#a3d9d1;
   --long:#2a78d6;--short:#eb6834;
   --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+body{background:var(--bg);color:var(--text);font:14px/1.45 Figtree,system-ui,-apple-system,Segoe UI,sans-serif}
+h1,h2,.big,.kpi .value,.brand b{font-family:var(--display);letter-spacing:-.01em;text-wrap:balance}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button,input,select,textarea{font:inherit;color:inherit}
 a{color:var(--accent2)}
-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:14px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px;margin-right:auto}
-.logo{width:34px;height:34px;border-radius:9px;background:var(--red);display:grid;place-items:center}
-.logo svg{width:16px;height:16px}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--accent);display:grid;place-items:center}
+.logo svg{width:20px;height:20px}
 .brand b{display:block;font-size:15px}.brand small{color:var(--muted);font-size:12px}
 nav{display:flex;gap:2px;overflow-x:auto;max-width:100%}
 nav button{background:none;border:1px solid transparent;color:var(--muted);padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
@@ -53,7 +58,10 @@ h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:0 0 12px}h3{font-size:
 .kpi .hint{color:var(--muted);font-size:12px}
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;white-space:nowrap}
 .btn:hover{border-color:var(--accentLine)}
-.btn.primary{background:linear-gradient(135deg,#6d50f1,#805ef7);border-color:#826af0;color:#fff;font-weight:650}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--onAccent);font-weight:650}
+.btn.primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.banner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 14px;margin-bottom:16px;border:1px solid var(--accentLine);background:var(--accentSoft);border-radius:10px}
+.banner span{flex:1;min-width:200px}
 .btn.danger{color:var(--bad)}
 .btn.sm{padding:5px 9px;font-size:12px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -155,8 +163,8 @@ pre.copy{white-space:pre-wrap;background:var(--panel2);border:1px solid var(--li
 <body>
 <header>
   <div class="brand">
-    <div class="logo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7.5-4.5z" fill="#fff"/></svg></div>
-    <div><b id="brandName">YouTube Creator Studio</b><small>Plan · Schedule · Monetize</small></div>
+    <div class="logo"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4.5" width="14" height="12" rx="2" fill="none" stroke="var(--onAccent)" stroke-width="1.8"/><path d="M3 8.5h14M7 3v3M13 3v3" stroke="var(--onAccent)" stroke-width="1.8" stroke-linecap="round"/><path d="M7.5 12.3l1.8 1.7 3.3-3.4" fill="none" stroke="var(--onAccent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div><b id="brandName">Cadence</b><small>Plan · Schedule · Monetize</small></div>
   </div>
   <nav id="nav">
     <button data-view="dashboard">Dashboard</button>
@@ -172,6 +180,7 @@ pre.copy{white-space:pre-wrap;background:var(--panel2);border:1px solid var(--li
 <main id="view"></main>
 
 <div class="modal" id="modal"><div class="dialog" id="dialog" role="dialog" aria-modal="true"></div></div>
+<div class="modal" id="confirm" style="z-index:70"><div class="dialog" style="width:min(420px,100%)" role="alertdialog" aria-modal="true" aria-labelledby="confirmMsg"><p id="confirmMsg" style="margin:0 0 14px;font-weight:600"></p><div class="foot"><button class="btn" id="confirmNo">Cancel</button><button class="btn primary" id="confirmYes" style="background:var(--bad);border-color:var(--bad);color:#fff">Delete</button></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="lib.js"></script>
@@ -195,21 +204,76 @@ const DEFAULTS = {
   channel: { name: 'My Channel', niche: 'Education / how-to', subs: 0, watchHours: 0, shortsViews90: 0, uploads90: 0, avgViews: 0,
     monthlyLongViews: 0, monthlyShortViews: 0, rpmLong: '', rpmShort: '', incomeGoal: 1000, handle: '', apiKey: '' },
   cadence: { long: [2, 5], longTime: '17:00', short: [1, 3, 5], shortTime: '12:00' },
-  videos: [], income: [], deals: [], reminded: {}, prefs: { theme: 'auto', notify: false },
+  videos: [], income: [], deals: [], reminded: {}, prefs: { notify: false },
 };
 let S;
 try { S = JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { S = null; }
-S = S ? { ...structuredClone(DEFAULTS), ...S, channel: { ...DEFAULTS.channel, ...S.channel }, cadence: { ...DEFAULTS.cadence, ...S.cadence }, prefs: { ...DEFAULTS.prefs, ...S.prefs } } : structuredClone(DEFAULTS);
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Could not save — browser storage is unavailable.'); } }
+const normalize = (d) => ({ ...structuredClone(DEFAULTS), ...d, channel: { ...DEFAULTS.channel, ...d.channel }, cadence: { ...DEFAULTS.cadence, ...d.cadence }, prefs: { ...DEFAULTS.prefs, ...d.prefs } });
+const firstRun = !S;
+S = S ? normalize(S) : structuredClone(DEFAULTS);
+function save() {
+  S.updatedAt = Date.now();
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { if (!cloud) toast('Couldn\'t save: this browser is blocking storage. Download a backup from Settings to keep your work.'); }
+  clearTimeout(save.t); save.t = setTimeout(pushCloud, 1500);
+}
+
+/* Account sync: on claude.ai the page can keep a private copy per signed-in person,
+   so the same data shows up on every device. Locally this is a no-op. */
+let cloud = null, cloudState = 'local';
+async function initCloud() {
+  if (!window.claude?.use) return;
+  try {
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    const id = db && user ? await user.id() : null;
+    if (!id) return;
+    const ref = db.collection('data/users/' + id).doc('state');
+    const snap = await ref.get();
+    const remote = snap.exists ? snap.data() : null;
+    cloud = ref; cloudState = 'synced';
+    if (remote && (remote.updatedAt || 0) > (S.updatedAt || 0)) {
+      S = normalize(JSON.parse(remote.json));
+      try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* cloud copy is enough */ }
+      render(); toast('Loaded your data from your account');
+    } else { render(); pushCloud(); }
+  } catch (e) { cloudState = 'local'; }
+}
+async function pushCloud() {
+  if (!cloud || S.isDemo) return;
+  try { await cloud.set({ json: JSON.stringify(S), updatedAt: S.updatedAt || Date.now() }); cloudState = 'synced'; }
+  catch (e) { if (cloudState !== 'error') toast('Couldn\'t sync to your account. Your changes are still saved in this browser.'); cloudState = 'error'; }
+}
 function commit() { save(); render(); }
 
 let view = (location.hash.slice(1) || 'dashboard');
 let calMonth = new Date(); calMonth.setDate(1);
 
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); }
-function applyTheme() { if (S.prefs.theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = S.prefs.theme; }
-function download(name, text, type = 'text/plain') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
-async function copy(text) { try { await navigator.clipboard.writeText(text); toast('Copied to clipboard'); } catch (e) { toast('Copy failed — select and copy manually.'); } }
+async function download(name, text, type = 'text/plain') {
+  if (!window.claude?.use) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    return;
+  }
+  const dl = name.endsWith('.ics') ? null : await window.claude.use('downloads');
+  if (dl) {
+    try { await dl.save({ filename: name, data: text }); return; }
+    catch (e) { if (e?.code === 'declined') return; if (e?.code === 'rate_limited') return toast('A save is already waiting for your answer.'); }
+  }
+  openModal(`<div class="row"><h2 style="margin:0">Save ${esc(name)}</h2><span class="spacer"></span><button class="btn sm" id="xClose" aria-label="Close">✕</button></div>
+    <p class="note">This page can't save this file type directly. Copy the text, paste it into a plain-text editor and save it as <b>${esc(name)}</b>.${name.endsWith('.ics') ? ' Then open that file to add the schedule to Google, Apple or Outlook Calendar.' : ''}</p>
+    <textarea id="xText" readonly style="min-height:260px;font:12px/1.5 ui-monospace,monospace">${esc(text)}</textarea>
+    <div class="foot"><button class="btn primary" id="xCopy">Copy text</button></div>`, (d) => {
+    $('#xClose', d).onclick = closeModal;
+    $('#xCopy', d).onclick = () => { const t = $('#xText', d); copy(t.value); t.select(); };
+  });
+}
+function askConfirm(message, yesLabel, onYes) {
+  const c = $('#confirm');
+  $('#confirmMsg').textContent = message; $('#confirmYes').textContent = yesLabel;
+  c.classList.add('open'); $('#confirmNo').focus();
+  $('#confirmYes').onclick = () => { c.classList.remove('open'); onYes(); };
+  $('#confirmNo').onclick = () => c.classList.remove('open');
+}
+async function copy(text) { try { await navigator.clipboard.writeText(text); toast('Copied to clipboard'); } catch (e) { toast('Your browser blocked copying. Select the text and copy it yourself.'); } }
 
 const rpm = () => { const n = L.NICHES[S.channel.niche] || L.NICHES.Other; return { long: Number(S.channel.rpmLong) || n.long, short: Number(S.channel.rpmShort) || n.short }; };
 const uploads90App = () => S.videos.filter((v) => v.status === 'Published' && v.publishAt && Date.now() - new Date(v.publishAt) < 90 * 864e5 && new Date(v.publishAt) <= new Date()).length;
@@ -493,12 +557,11 @@ VIEWS.settings = () => {
   const c = S.channel, cad = S.cadence;
   const toggles = (key) => `<div class="toggles" data-cad="${key}">${DAYS.map((d, i) => `<button type="button" data-d="${i}" class="${cad[key].includes(i) ? 'on' : ''}" aria-pressed="${cad[key].includes(i)}">${d}</button>`).join('')}</div>`;
   return `
-  <h1>Settings</h1><p class="sub">Your channel, posting cadence, YouTube connection and backups. Everything is stored only in this browser.</p>
+  <h1>Settings</h1><p class="sub">Your channel, posting cadence, YouTube connection and backups. Your data stays private to you.</p>
   <div class="grid g2">
     <div class="card"><h2>Channel</h2>
       <label class="f"><span>Channel name</span><input data-ch="name" value="${esc(c.name)}"></label>
       <label class="f"><span>Niche</span><select data-ch="niche">${Object.keys(L.NICHES).map((n) => `<option ${n === c.niche ? 'selected' : ''}>${esc(n)}</option>`).join('')}</select></label>
-      <label class="f"><span>Theme</span><select id="theme"><option value="auto">Match system</option><option value="dark">Dark</option><option value="light">Light</option></select></label>
     </div>
     <div class="card"><h2>Posting cadence</h2>
       <p class="note" style="margin-top:-6px">Consistency is one of the strongest growth levers. Pick days you can actually sustain.</p>
@@ -519,6 +582,7 @@ VIEWS.settings = () => {
       <p class="note" style="margin-top:-6px">While this tab is open you'll get a reminder when a video is due within 24 hours and isn't Ready or Scheduled yet. For reminders on your phone, export the calendar (.ics) from the Calendar tab.</p>
       <button class="btn" id="notifyBtn">${S.prefs.notify && 'Notification' in window && Notification.permission === 'granted' ? 'Desktop notifications on ✓' : 'Enable desktop notifications'}</button>
       <h2 style="margin-top:18px">Backup</h2>
+      <p class="note" style="margin-top:-6px">${cloudState === 'synced' ? '✓ Synced to your claude.ai account. Open this page on any device where you\'re signed in.' : 'Saved in this browser only. Download a backup to move your data to another device.'}</p>
       <div class="row"><button class="btn" id="exportJson">Download backup</button><label class="btn">Restore backup<input type="file" id="importJson" accept="application/json" hidden></label><button class="btn" id="demo">Load demo data</button><button class="btn danger" id="reset">Reset everything</button></div>
     </div>
   </div>`;
@@ -528,7 +592,7 @@ VIEWS.settings = () => {
 function openModal(html, bind) { $('#dialog').innerHTML = html; $('#modal').classList.add('open'); bind?.($('#dialog')); setTimeout(() => $('#dialog input, #dialog textarea, #dialog select')?.focus(), 0); }
 function closeModal() { $('#modal').classList.remove('open'); }
 $('#modal').addEventListener('mousedown', (e) => { if (e.target.id === 'modal') closeModal(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if ($('#confirm').classList.contains('open')) $('#confirm').classList.remove('open'); else closeModal(); });
 
 const DESC_TEMPLATE = (v) => `${v.title || 'Video title'} — one-sentence summary with your main keyword${v.keyword ? ` (${v.keyword})` : ''}.
 
@@ -622,7 +686,7 @@ function editVideo(id, preset = {}) {
       closeModal(); commit(); toast(isNew ? 'Video added' : 'Video saved');
     };
     if (!isNew) {
-      $('#vDelete', d).onclick = () => { if (confirm('Delete this video?')) { S.videos = S.videos.filter((x) => x.id !== v.id); closeModal(); commit(); toast('Video deleted'); } };
+      $('#vDelete', d).onclick = () => { askConfirm('Delete this video? This can\'t be undone.', 'Delete video', () => { S.videos = S.videos.filter((x) => x.id !== v.id); closeModal(); commit(); toast('Video deleted'); }); };
       $('#vDup', d).onclick = () => { read(); const c = { ...structuredClone(v), id: uid(), title: v.title + ' (copy)', status: 'Idea', publishAt: '', checklist: {} }; S.videos.push(c); closeModal(); commit(); editVideo(c.id); };
     }
   });
@@ -657,7 +721,7 @@ function editDeal(id) {
       if (i >= 0) S.deals[i] = d; else S.deals.push(d);
       closeModal(); commit();
     };
-    if (!isNew) $('#dDelete', m).onclick = () => { if (confirm('Delete this deal?')) { S.deals = S.deals.filter((x) => x.id !== d0.id); S.videos.forEach((v) => { if (v.dealId === d0.id) v.dealId = ''; }); closeModal(); commit(); } };
+    if (!isNew) $('#dDelete', m).onclick = () => { askConfirm('Delete this deal?', 'Delete deal', () => { S.deals = S.deals.filter((x) => x.id !== d0.id); S.videos.forEach((v) => { if (v.dealId === d0.id) v.dealId = ''; }); closeModal(); commit(); toast('Deal deleted'); }); };
   });
 }
 
@@ -665,14 +729,15 @@ function editDeal(id) {
 function render() {
   if (!VIEWS[view]) view = 'dashboard';
   $$('#nav button').forEach((b) => b.classList.toggle('active', b.dataset.view === view));
-  $('#brandName').textContent = S.channel.name && S.channel.name !== 'My Channel' ? S.channel.name : 'YouTube Creator Studio';
+  $('#brandName').textContent = S.channel.name && S.channel.name !== 'My Channel' ? S.channel.name : 'Cadence';
   const y = scrollY;
-  $('#view').innerHTML = VIEWS[view]();
+  $('#view').innerHTML = (S.isDemo ? '<div class="banner" role="note"><span><b>You\'re looking at example data</b> for a made-up finance channel. Explore, then clear it to start planning your own channel.</span><button class="btn primary sm" id="startFresh">Clear examples and start</button></div>' : '') + VIEWS[view]();
+  $('#startFresh')?.addEventListener('click', () => { S = structuredClone(DEFAULTS); go('settings'); save(); toast('Examples cleared. Start by naming your channel.'); });
   scrollTo(0, y);
   bindView();
 }
 
-function go(v) { view = v; history.replaceState(null, '', '#' + v); scrollTo(0, 0); render(); }
+function go(v) { view = v; try { history.replaceState(null, '', '#' + v); } catch (e) { /* hash is optional */ } scrollTo(0, 0); render(); }
 $('#nav').onclick = (e) => { const b = e.target.closest('button[data-view]'); if (b) go(b.dataset.view); };
 $('#newVideo').onclick = () => editVideo(null);
 
@@ -754,8 +819,6 @@ ${S.channel.name}`;
     $('#newDeal').onclick = () => editDeal(null);
   }
   if (view === 'settings') {
-    $('#theme').value = S.prefs.theme;
-    $('#theme').onchange = (e) => { S.prefs.theme = e.target.value; applyTheme(); save(); };
     $$('[data-cad]').forEach((g) => g.onclick = (e) => {
       const b = e.target.closest('button'); if (!b) return;
       const k = g.dataset.cad, d = Number(b.dataset.d), arr = S.cadence[k];
@@ -770,18 +833,18 @@ ${S.channel.name}`;
       S.prefs.notify = p === 'granted'; commit();
       toast(p === 'granted' ? 'Notifications enabled' : 'Notifications blocked — you\'ll still see in-app reminders.');
     };
-    $('#exportJson').onclick = () => download(`creator-studio-backup-${L.dateKey(new Date())}.json`, JSON.stringify(S, null, 2), 'application/json');
+    $('#exportJson').onclick = () => download(`cadence-backup-${L.dateKey(new Date())}.json`, JSON.stringify(S, null, 2), 'application/json');
     $('#importJson').onchange = async (e) => {
       const f = e.target.files[0]; if (!f) return;
       try {
         const d = JSON.parse(await f.text());
         if (!Array.isArray(d.videos) || !d.channel) throw new Error('bad');
-        S = { ...structuredClone(DEFAULTS), ...d, channel: { ...DEFAULTS.channel, ...d.channel }, cadence: { ...DEFAULTS.cadence, ...d.cadence }, prefs: { ...DEFAULTS.prefs, ...d.prefs } };
-        applyTheme(); commit(); toast('Backup restored');
+        S = normalize(d);
+        commit(); toast('Backup restored');
       } catch (err) { toast('That file is not a valid backup.'); }
     };
-    $('#demo').onclick = () => { if (!S.videos.length || confirm('Replace your current data with demo data?')) { S = demoData(); applyTheme(); commit(); toast('Demo data loaded'); } };
-    $('#reset').onclick = () => { if (confirm('Delete all videos, income, deals and settings from this browser?')) { S = structuredClone(DEFAULTS); applyTheme(); commit(); toast('Everything reset'); } };
+    $('#demo').onclick = () => { const load = () => { S = demoData(); commit(); toast('Example data loaded'); }; if (!S.videos.length || S.isDemo) load(); else askConfirm('Replace your videos, income and deals with example data?', 'Load examples', load); };
+    $('#reset').onclick = () => askConfirm('Delete all videos, income, deals and settings from this browser?', 'Delete everything', () => { S = structuredClone(DEFAULTS); commit(); toast('Everything deleted'); });
   }
 }
 
@@ -829,7 +892,7 @@ async function fetchStats() {
     if (S.channel.name === 'My Channel' || !S.channel.name) S.channel.name = ch.snippet.title;
     commit();
     toast(`${ch.snippet.title}: ${fmtN(st.subscriberCount)} subscribers · ${fmtN(st.viewCount)} total views · ${fmtN(st.videoCount)} videos`);
-  } catch (e) { toast('YouTube API error: ' + e.message); }
+  } catch (e) { toast(e instanceof TypeError ? 'Couldn\'t reach the YouTube API from this page. Run the app locally to use this, or enter your subscriber count by hand.' : 'YouTube API error: ' + e.message); }
 }
 
 /* ---------- reminders ---------- */
@@ -842,7 +905,7 @@ function checkReminders() {
     if (h > 0 && h <= 24 && !S.reminded[key]) {
       S.reminded[key] = 1; save();
       const msg = `“${v.title || 'Untitled video'}” goes out ${countdown(v.publishAt)} and is still in ${v.status}.`;
-      if (S.prefs.notify && 'Notification' in window && Notification.permission === 'granted') new Notification('Upload reminder', { body: msg });
+      if (S.prefs.notify && 'Notification' in window && Notification.permission === 'granted') try { new Notification('Upload reminder', { body: msg }); } catch (e) { /* toast below still shows */ }
       toast(msg);
     }
   }
@@ -870,6 +933,7 @@ function demoData() {
     mk('How to Start Investing With $100', null, 'Idea'),
   ];
   const m = (back, day) => { const x = new Date(); x.setMonth(x.getMonth() - back, day); return L.dateKey(x); };
+  d.isDemo = true;
   d.income = [
     { id: uid(), date: m(5, 12), source: 'Affiliate', amount: 42, note: 'Broker referral' },
     { id: uid(), date: m(4, 10), source: 'Affiliate', amount: 65, note: '' },
@@ -886,8 +950,9 @@ function demoData() {
   return d;
 }
 
-applyTheme();
+if (firstRun) S = demoData();
 render();
+initCloud();
 checkReminders();
 setInterval(checkReminders, 60000);
 setInterval(() => { if (view === 'dashboard' && !$('#modal').classList.contains('open')) render(); }, 60000);

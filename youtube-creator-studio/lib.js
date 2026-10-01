@@ -1,5 +1,5 @@
 /*
- * YouTube Creator Studio — pure logic (no DOM).
+ * Cadence creator planner — pure logic (no DOM).
  * Loaded by index.html as a classic script (exposes window.YTLib) and by
  * Node tests via require().
  */
@@ -233,7 +233,7 @@
   const icsDate = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 
   function toICS(videos, now = new Date()) {
-    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//YouTube Creator Studio//EN', 'CALSCALE:GREGORIAN'];
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Cadence Creator Planner//EN', 'CALSCALE:GREGORIAN'];
     for (const v of videos) {
       if (!v.publishAt) continue;
       const start = new Date(v.publishAt);
